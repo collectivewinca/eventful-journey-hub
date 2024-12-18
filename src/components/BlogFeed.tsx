@@ -62,7 +62,7 @@ export const BlogFeed = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full grid grid-cols-1 gap-6 animate-pulse">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
         {[1, 2, 3].map((i) => (
           <div key={i} className="h-64 bg-muted rounded-lg" />
         ))}
@@ -82,15 +82,15 @@ export const BlogFeed = () => {
 
   return (
     <div className="w-full space-y-8">
-      <div className="flex justify-between items-center">
-        <div className="prose max-w-none">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="prose max-w-none flex-1">
           <div
-            className="text-muted-foreground"
+            className="text-muted-foreground text-sm sm:text-base"
             dangerouslySetInnerHTML={{ __html: data?.description || "" }}
           />
         </div>
         <Select value={timeFilter} onValueChange={setTimeFilter}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Filter by time" />
           </SelectTrigger>
           <SelectContent>
@@ -102,12 +102,12 @@ export const BlogFeed = () => {
         </Select>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPosts.map((item) => (
-          <Card key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          <Card key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
             <CardHeader className="space-y-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CalendarDays className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                <CalendarDays className="w-4 h-4 flex-shrink-0" />
                 <time dateTime={item.date_published}>
                   {new Date(item.date_published).toLocaleDateString()}
                 </time>
@@ -115,26 +115,27 @@ export const BlogFeed = () => {
                   <>
                     <span>•</span>
                     <div className="flex items-center gap-1">
-                      <User className="w-4 h-4" />
-                      <span>{item.authors[0].name}</span>
+                      <User className="w-4 h-4 flex-shrink-0" />
+                      <span className="truncate max-w-[150px]">{item.authors[0].name}</span>
                     </div>
                   </>
                 )}
               </div>
-              <h2 className="text-2xl font-bold tracking-tight">{item.title}</h2>
+              <h2 className="text-lg sm:text-xl font-bold tracking-tight line-clamp-2">{item.title}</h2>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 flex flex-col">
               {item.image && (
-                <div className="relative h-48 mb-4 rounded-md overflow-hidden">
+                <div className="relative aspect-video mb-4 rounded-md overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               )}
               <div
-                className="prose max-w-none"
+                className="prose max-w-none text-sm sm:text-base line-clamp-3"
                 dangerouslySetInnerHTML={{ __html: item.content_html }}
               />
             </CardContent>
