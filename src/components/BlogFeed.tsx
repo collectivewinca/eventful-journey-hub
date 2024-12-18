@@ -96,7 +96,7 @@ export const BlogFeed = () => {
             <SelectValue placeholder="Filter by time" />
             <ChevronDown className="h-4 w-4" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-white border border-input">
             <SelectItem value="all">All Posts</SelectItem>
             <SelectItem value="today">Today</SelectItem>
             <SelectItem value="thisWeek">This Week</SelectItem>
