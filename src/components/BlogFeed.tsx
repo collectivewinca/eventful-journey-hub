@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { CalendarDays, User } from "lucide-react";
+import { CalendarDays, User, ChevronDown, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useState } from "react";
 import { startOfToday, startOfWeek, subWeeks, isAfter, parseISO } from "date-fns";
 
@@ -90,8 +92,9 @@ export const BlogFeed = () => {
           />
         </div>
         <Select value={timeFilter} onValueChange={setTimeFilter}>
-          <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectTrigger className="w-full sm:w-[180px] flex items-center gap-2">
             <SelectValue placeholder="Filter by time" />
+            <ChevronDown className="h-4 w-4" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Posts</SelectItem>
@@ -135,9 +138,31 @@ export const BlogFeed = () => {
                 </div>
               )}
               <div
-                className="prose max-w-none text-sm sm:text-base line-clamp-3"
+                className="prose max-w-none text-sm sm:text-base line-clamp-3 mb-4"
                 dangerouslySetInnerHTML={{ __html: item.content_html }}
               />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-fit mt-auto flex items-center gap-2">
+                    Read More <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl sm:text-2xl mb-4">{item.title}</DialogTitle>
+                  </DialogHeader>
+                  <div className="prose max-w-none">
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-auto rounded-lg mb-6"
+                      />
+                    )}
+                    <div dangerouslySetInnerHTML={{ __html: item.content_html }} />
+                  </div>
+                </DialogContent>
+              </Dialog>
             </CardContent>
           </Card>
         ))}
