@@ -8,7 +8,17 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row items-center gap-2 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Copyright className="h-4 w-4" />
-              <span>2025 EventBuoy. All rights reserved.</span>
+              <span>
+                <a 
+                  href="https://eventbuoy.com"
+                  className="hover:text-foreground transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  EventBuoy
+                </a>
+                . All rights reserved.
+              </span>
             </div>
             <span className="hidden md:inline">•</span>
             <a 
